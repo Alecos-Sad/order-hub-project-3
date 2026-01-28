@@ -1,0 +1,110 @@
+databaseChangeLog:
+  - changeSet:
+      id: 18_01_26_01_initial_schema
+      author: orderhub
+      changes:
+        # ---------------- orders ----------------
+        - createTable:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_number
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: create_at
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+        # CHECK для orders.status
+        - sql:
+            dbms: postgresql
+            sql: >
+              ALTER TABLE orders
+              ADD CONSTRAINT check_status
+              CHECK (status IN ('CREATED', 'PAID', 'CANCELLED'));
+
+        - createIndex:
+            tableName: orders
+            indexName: idx_order_status
+            columns:
+              - column:
+                  name: status
+        # -------------- order_items --------------
+        - createTable:
+            tableName: order_items
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: order_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: decimal(10, 2)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_order_items_order
+            baseTableName: order_items
+            baseColumnNames: order_id
+            referencedTableName: orders
+            referencedColumnNames: id
+            onDelete: CASCADE
+        # CHECK для quantity
+        - sql:
+            dbms: postgresql
+            sql: >
+              ALTER TABLE order_items
+              ADD CONSTRAINT chk_order_items_quantity
+              CHECK (quantity > 0);
+
+        # CHECK для price
+        - sql:
+            dbms: postgresql
+            sql: >
+              ALTER TABLE order_items
+              ADD CONSTRAINT chk_order_items_price
+              CHECK (price >= 0);
+        - createIndex:
+            tableName: order_items
+            indexName: idx_order_items_id
+            columns:
+              - column:
+                  name: order_id

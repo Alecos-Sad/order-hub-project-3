@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - property:
+      name: now
+      value: now()
+      dbms: postgresql
+  - include:
+      file: db/changelog/changes/18_01_26_01_initial_schema.yaml
