@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,11 +30,10 @@ public class JOOQOrderService {
                         )
                 ).toList();
         Order order = new Order();
-        order.setId(1L);
         order.setStatus(OrderStatus.CREATED);
-        order.setOrderNumber("1");
+        order.setOrderNumber(UUID.randomUUID().toString());
         order.setCreateAt(Instant.now());
-        order.setItems(items);
+        items.forEach(order::addItem);
         return jooqOrderRepository.save(order);
     }
 }

@@ -36,10 +36,17 @@ public class Order {
     public Order(List<OrderItem> items) {
         this.status = OrderStatus.CREATED;
         this.createAt = Instant.now();
-        this.items.addAll(items);
         this.orderNumber = UUID.randomUUID().toString();
-        if (items != null) {
-            this.items.addAll(items);
+        if (items != null && !items.isEmpty()) {
+            items.forEach(this::addItem);
         }
+    }
+
+    public void addItem(OrderItem item) {
+        if (item == null) {
+            return;
+        }
+        items.add(item);
+        item.setOrder(this);
     }
 }

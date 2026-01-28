@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -33,9 +32,7 @@ public class JDBCOrderService {
         order.setStatus(OrderStatus.CREATED);
         order.setOrderNumber(UUID.randomUUID().toString());
         order.setCreateAt(Instant.now());
-        order.setItems(items);
+        items.forEach(order::addItem);
         return jdbcOrderRepository.save(order);
     }
-
-
 }
