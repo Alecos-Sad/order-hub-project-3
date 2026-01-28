@@ -10,7 +10,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
 
     show-sql: true
     properties:
@@ -23,12 +23,12 @@ logging:
     sql: debug
 management:
   server:
-    port: 9090  # отдельный порт для actuator :contentReference[oaicite:3]{index=3}
+    port: 9090
   endpoints:
     web:
-      base-path: /actuator   # дефолт, можно не задавать :contentReference[oaicite:4]{index=4}
+      base-path: /actuator
       exposure:
-        include: health,info,startup  # иначе startup не будет доступен по HTTP :contentReference[oaicite:5]{index=5}
+        include: health,info,startup
   endpoint:
     startup:
-      access: unrestricted   # по умолчанию так и есть, можно не писать :contentReference[oaicite:6]{index=6}
+      access: unrestricted   

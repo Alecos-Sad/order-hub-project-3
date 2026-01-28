@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/demo/orders")
 public class JDBCOrderController {
 
-    private final JDBCOrderService jdbcrderService;
+    private final JDBCOrderService jdbcOrderService;
 
     @PostMapping("/jdbc")
     public ResponseEntity<OrderResponse> createOrder(
             @Valid @RequestBody CreateOrderRequest createOrderRequest
     ) {
-        Order withJDBC = jdbcrderService.createWithJDBC(createOrderRequest);
+        Order withJDBC = jdbcOrderService.createWithJDBC(createOrderRequest);
         OrderResponse orderResponse = OrderResponse.from(withJDBC);
         return ResponseEntity.ok(orderResponse);
     }

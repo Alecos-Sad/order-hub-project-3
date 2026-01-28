@@ -26,7 +26,7 @@ public class OrderController {
         OrderResponse response = OrderResponse.from(order);
         return ResponseEntity
                 .created(
-                        URI.create("/orders" + order.getId())
+                        URI.create("/orders/" + order.getId())
                 )
                 .body(response);
     }

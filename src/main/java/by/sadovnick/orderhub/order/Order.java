@@ -39,7 +39,7 @@ public class Order {
         this.items.addAll(items);
         this.orderNumber = UUID.randomUUID().toString();
         if (items != null) {
-            items.forEach(item -> item.setOrder(this));
+            this.items.addAll(items);
         }
     }
 }

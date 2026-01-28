@@ -35,8 +35,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundOrderException.class)
     public ResponseEntity<ApiError> handleException(NotFoundOrderException ex) {
-
-        return ResponseEntity.badRequest().body(
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new ApiError(
                         HttpStatus.NOT_FOUND.value(),
                         "Order not found",

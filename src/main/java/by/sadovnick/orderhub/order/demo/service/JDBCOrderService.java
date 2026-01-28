@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -28,9 +30,8 @@ public class JDBCOrderService {
                         )
                 ).toList();
         Order order = new Order();
-        order.setId(1L);
         order.setStatus(OrderStatus.CREATED);
-        order.setOrderNumber("1");
+        order.setOrderNumber(UUID.randomUUID().toString());
         order.setCreateAt(Instant.now());
         order.setItems(items);
         return jdbcOrderRepository.save(order);

@@ -18,7 +18,7 @@ public record CreateOrderRequest(
             @NotBlank(message = "productName не должен быть пустым")
             String productName,
 
-            @Min(value = 1, message = "Количество должно быть > 1")
+            @Positive(message = "Количество должно быть > 1")
             int quantity,
 
             @NotNull(message = "price обязателен")

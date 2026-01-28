@@ -3,7 +3,6 @@ package by.sadovnick.orderhub.order.demo.controller;
 import by.sadovnick.orderhub.order.CreateOrderRequest;
 import by.sadovnick.orderhub.order.Order;
 import by.sadovnick.orderhub.order.OrderResponse;
-import by.sadovnick.orderhub.order.demo.service.JDBCOrderService;
 import by.sadovnick.orderhub.order.demo.service.JOOQOrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
