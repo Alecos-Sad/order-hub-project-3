@@ -6,11 +6,13 @@ import by.sadovnick.orderhub.order.OrderItem;
 import by.sadovnick.orderhub.order.exception.NotFoundOrderException;
 import by.sadovnick.orderhub.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -18,6 +20,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     public Order createOrder(CreateOrderRequest request) {
+        log.debug("В метод createOrder получен запрос: {}", request);
         List<OrderItem> items = request
                 .items()
                 .stream()
@@ -29,11 +32,13 @@ public class OrderService {
                         )
                 ).toList();
         Order order = new Order(items);
+        log.debug("Все успешно сохранено!");
         return orderRepository.save(order);
     }
 
     @Transactional(readOnly = true)
-    public Order findOrderById(Long id) {
+    public Order getOrderWithItems(Long id) {
+        log.debug("В метод createOrder получен запрос поиска order по id: {}", id);
         return orderRepository.findWithItemsById(id).orElseThrow(
                 () -> new NotFoundOrderException("Заказ не найден")
         );
